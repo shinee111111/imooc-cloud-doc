@@ -1,0 +1,51 @@
+.icon-button {
+  background: none;
+  border: none;
+  color: inherit;
+  /* outline: none !important; */
+}
+.c-link {
+  cursor: pointer;
+}
+.start-page {
+  font-size: 30px;
+  height: 300px;
+  line-height: 300px;
+  color: #ccc;
+  text-align: center;
+}
+.left-panel {
+  min-height: 100vh;
+  position: relative;
+  background: #f8f9fa;
+}
+.button-group {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+.no-border {
+  border-radius: 0 !important;
+}
+
+.right-panel {
+  position: relative;
+}
+
+.sync-status {
+  font-size: 12px;
+  color: #959694;
+  position: absolute;
+  bottom: 12px;
+  left: 10px;
+}
+
+/* simpleMDE容器高度 */
+.CodeMirror-scroll {
+  height: 420px !important;
+}
+
+/* 修改bootStrap默认样式 */
+.list-group-item {
+  padding: 0.25rem 0.5rem !important;
+}

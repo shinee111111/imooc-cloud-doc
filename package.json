@@ -1,0 +1,125 @@
+{
+  "name": "cloud-doc",
+  "version": "0.1.0",
+  "main": "main.js",
+  "description": "Online Markdown Editor using Qiniu cloud service by killer",
+  "author": {
+    "name": "Kill Hand",
+    "email": "shinee111111@qq.com"
+  },
+  "private": true,
+  "dependencies": {
+    "electron-store": "^5.1.0",
+    "electron-is-dev": "^1.1.0",
+    "qiniu": "^7.2.2",
+    "uuid": "^3.3.3",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "buildMain": "webpack ./webpack.config.js",
+    "onlyEle": "nodemon --watch main.js --watch src/menuTemplate.js --exec \"chcp 65001 && electron .\"",
+    "dev": "concurrently \"wait-on http://localhost:3000 && electron .\" \"cross-env BROWSER=none npm start\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "homepage": "./",
+  "build": {
+    "appId": "cloudDoc",
+    "productName": "七牛云文档",
+    "copyright": "Copyright © 2019 ${author}",
+    "files": [
+      "build/**/*",
+      "settings/**/*",
+      "main.js",
+      "./src/menuTemplate.js",
+      "./src/utils/mainHelper.js",
+      "./src/utils/QiniuManager.js",
+      "./src/AppWindow.js"
+    ],
+    "extends": null,
+    "directories": {
+      "buildResources": "assets"
+    },
+    "publish": [
+      "github"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi",
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
+      "publisherName": "Viking Zhang"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": true
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "wait-on": "^3.3.0",
+    "cross-env": "^6.0.3",
+    "electron": "^7.1.1",
+    "electron-builder": "^21.2.0",
+    "webpack-cli": "^3.3.10",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.7",
+    "classnames": "^2.2.6",
+    "node-sass": "^4.12.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.2.0",
+    "react-simplemde-editor": "^4.1.0"
+  }
+}
