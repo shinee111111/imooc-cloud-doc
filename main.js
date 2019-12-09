@@ -1,5 +1,6 @@
 const { app, Menu, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const menuTemplate = require('./src/menuTemplate');
 const AppWindow = require('./src/AppWindow');
@@ -21,6 +22,71 @@ const createManager = () => {
 };
 
 app.on('ready', () => {
+  if (isDev) {
+    autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+  }
+  /**
+   * autoUpdater
+   *  checkForUpdatesAndNotify 仅在生成模式才能运行
+   * 若是开发模式
+   *  可以兼容使用 checkForUpdates
+   */
+
+  // 取消自动下载
+  autoUpdater.autoDownload = false; // 仅生成模式
+  autoUpdater.checkForUpdates(); // 兼容开发和生产模式
+
+  // 检测异常
+  autoUpdater.on('error', (error) => {
+    dialog.showErrorBox(
+      '检测更新异常',
+      error === null ? 'unknown' : '有错误提示，但是我不知道怎么打印...'
+    );
+  });
+
+  // 检测版本中...
+  autoUpdater.on('checking-for-update', () => {
+    console.log('checking for update ...');
+  });
+
+  // 如果检测到新版本
+  autoUpdater.on('update-available', () => {
+    dialog.showMessageBox({
+      type: 'info',
+      title: '应用有新的版本',
+      message: '发现新版本，是否现在更新?',
+      button: ['是', '否']
+    }, (buttonIndex) => {
+      if (buttonIndex === 0) {
+        autoUpdater.downloadUpdate();
+      }
+    });
+  });
+
+  // 当前是新版本
+  autoUpdater.on('update-not-available', () => {
+    dialog.showMessageBox({
+      title: '没有新版本',
+      message: '当前已经是最新版本'
+    });
+  });
+
+  // github拉取最新版本中...
+  autoUpdater.on('download-progress', (progressObj) => {
+    const { bytesPerSecond, progress, percent, total, transferred } = progressObj;
+    console.log('bytesPerSecond: ' + bytesPerSecond + ',progress: ' + progress + ',percent: ' + percent + ',transferred: ' + transferred + '/total: ' + total);
+  });
+
+  // 拉取新版本完毕
+  autoUpdater.on('update-downloaded', () => {
+    dialog.showMessageBox({
+      title: '安装更新',
+      message: '更新下载完毕，应用将重启并进行安装'
+    }, () => {
+      setImmediate(() => autoUpdater.quitAndInstall())
+    });
+  });
+
   const mainWindowConfig = {
     width: 1024,
     height: 680

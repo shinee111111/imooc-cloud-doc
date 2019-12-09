@@ -1,0 +1,6 @@
+owner: shinee111111
+repo: imooc-cloud-doc
+provider: github
+updaterCacheDirName: cloud-doc-updater
+publisherName:
+  - Viking Zhang

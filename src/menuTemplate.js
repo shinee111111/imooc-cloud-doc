@@ -1,4 +1,4 @@
-const { app, shell, ipcMain } = require('electron')
+const { app, shell, ipcMain, dialog } = require('electron')
 const Store = require('electron-store');
 const settingsStore = new Store({ name: 'Settings' });
 
@@ -186,6 +186,15 @@ let template = [
       accelerator: 'Alt+Shift+R',
       click: (menuItem, win) => {
         shell.showItemInFolder(__dirname);
+      }
+    }, {
+      label: '关于版本',
+      click: (menuItem, win) => {
+        dialog.showMessageBox({
+          type: 'info',
+          title: 'version 0.1.2',
+          message: 'version 0.1.2'
+        })
       }
     }]
   }
